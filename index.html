@@ -129,7 +129,7 @@ main{padding:0 24px;text-align:center}
     <button class="ib" id="installer-ok" type="button" hidden>Installer</button>
     <button class="ix" id="installer-x" type="button" aria-label="Fermer">×</button>
   </div>
-  <div class="ver">v6</div>
+  <div class="ver">v7</div>
 </div>
 
 <script>
@@ -335,6 +335,29 @@ function confettis() {
 
 window.addEventListener("hashchange", afficher);
 afficher();
+
+/* ===== Mise à jour automatique ===== */
+const BUILD = "ad876890f4bb";
+(function () {
+  async function verifier() {
+    if (document.visibilityState !== "visible") return;
+    try {
+      const r = await fetch(location.pathname + "?maj=" + Date.now(), {cache: "no-store"});
+      if (!r.ok) return;
+      const m = (await r.text()).match(/const BUILD = "([^"]+)"/);
+      if (!m || m[1] === BUILD) return;
+      let dernier = 0;
+      try { dernier = +sessionStorage.getItem("kdo-maj") || 0; } catch (e) {}
+      if (Date.now() - dernier < 60000) return;
+      try { sessionStorage.setItem("kdo-maj", String(Date.now())); } catch (e) {}
+      location.reload();
+    } catch (e) {}
+  }
+  verifier();
+  document.addEventListener("visibilitychange", verifier);
+  addEventListener("pageshow", e => { if (e.persisted) verifier(); });
+  setInterval(verifier, 5 * 60 * 1000);
+})();
 
 /* ===== Appli : écran d'accueil ===== */
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
