@@ -81,6 +81,12 @@ main{padding:0 24px;text-align:center}
 .wait{margin-top:22px;font:700 20px/1.25 'Gravur'}
 .wait .btn{font-size:20px;padding:16px 10px 14px}
 
+.apercu{position:fixed;inset:0;background:rgba(17,17,17,.95);z-index:60;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:16px;padding:24px 18px;overflow:auto;animation:in .2s ease-out}
+.apercu img{max-width:100%;max-height:70vh;border-radius:10px;-webkit-touch-callout:default}
+.apercu p{color:#fff;font:400 17px/1.3 'Gravur';text-align:center}
+.apercu .btn{width:auto;margin:0;padding:14px 30px 12px;font-size:20px;background:#FFD43B;color:#111;box-shadow:none}
+.ver{text-align:center;font:400 11px 'Gravur';color:#ccc;margin-top:40px}
 .installer{position:fixed;left:12px;right:12px;bottom:12px;max-width:436px;margin:0 auto;background:#111;color:#fff;
   border-radius:14px;padding:14px 44px 14px 16px;display:flex;align-items:center;gap:12px;z-index:40;
   box-shadow:0 10px 30px rgba(0,0,0,.25);animation:in .35s ease-out}
@@ -111,6 +117,7 @@ main{padding:0 24px;text-align:center}
     <button class="ib" id="installer-ok" type="button" hidden>Installer</button>
     <button class="ix" id="installer-x" type="button" aria-label="Fermer">×</button>
   </div>
+  <div class="ver">v4</div>
 </div>
 
 <script>
@@ -224,23 +231,51 @@ function devoiler(c, bouton) {
     ${c.texte ? `<p>${esc(c.texte)}</p>` : ""}</div>` : "";
   zone.innerHTML = `${carte}${bonHtml(c)}${infos ? `<ul class="info">${infos}</ul>` : ""}
     ${c.reserver ? `<a class="btn btn2" href="${esc(c.reserver)}" target="_blank" rel="noopener">Réserver le massage →</a>` : ""}`;
+  brancherPdf(c);
   bouton.remove();
   confettis();
   setTimeout(() => zone.scrollIntoView({behavior: "smooth", block: "start"}), 60);
 }
+
+const IOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
 function bonHtml(c) {
   const img = c.image || BONS[c.bonDe || actuel.cle];
   if (!img) return "";
   const fig = `<figure class="bon"><img src="${esc(img)}" alt="Ton cadeau"></figure>`;
   if (!(c.bon && c.bon.pdf)) return fig;
-  // iPhone : le PDF s'ouvre dans une fenêtre à part (bouton « OK » pour revenir), jamais à la place de l'appli
-  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  const lien = ios
-    ? `href="${esc(c.bon.pdf)}" target="_blank" rel="noopener"`
-    : `href="${esc(c.bon.pdf)}" download="${esc(c.bon.nom || "Bon-cadeau.pdf")}"`;
+  // iPhone : jamais de navigation vers le PDF (une appli installée n'a pas de bouton retour)
+  if (IOS) return `${fig}
+    <button class="btn btn-dl" id="dl" type="button">Enregistrer mon bon cadeau (PDF)</button>
+    <p class="astuce">Puis choisis « Enregistrer dans Fichiers ».</p>`;
   return `${fig}
-    <a class="btn btn-dl" ${lien}>Télécharger mon bon cadeau (PDF)</a>`;
+    <a class="btn btn-dl" href="${esc(c.bon.pdf)}" download="${esc(c.bon.nom || "Bon-cadeau.pdf")}">Télécharger mon bon cadeau (PDF)</a>`;
+}
+
+let fichierPdf = null;
+function brancherPdf(c) {
+  const b = document.getElementById("dl");
+  if (!b || !c.bon || !c.bon.pdf) return;
+  fichierPdf = null;
+  fetch(c.bon.pdf).then(r => r.ok ? r.blob() : null).then(bl => {
+    if (bl) fichierPdf = new File([bl], c.bon.nom || "Bon-cadeau.pdf", {type: "application/pdf"});
+  }).catch(() => {});
+  b.onclick = () => {
+    if (fichierPdf && navigator.canShare && navigator.canShare({files: [fichierPdf]})) {
+      navigator.share({files: [fichierPdf], title: "Bon cadeau"}).catch(() => {});
+    } else {
+      ouvrirApercu(document.querySelector(".bon img").src);
+    }
+  };
+}
+
+function ouvrirApercu(src) {
+  const o = document.createElement("div");
+  o.className = "apercu";
+  o.innerHTML = `<button type="button" class="btn">Fermer</button><img src="${esc(src)}" alt="Ton bon cadeau">` +
+    `<p>Appuie longuement sur le bon, puis « Ajouter à Photos ».</p>`;
+  o.querySelector("button").onclick = () => o.remove();
+  document.body.appendChild(o);
 }
 
 function confettis() {
