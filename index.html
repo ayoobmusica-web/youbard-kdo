@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FFD43B">
+<title>YOUBARD KDO</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="YOUBARD KDO">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+@font-face{font-family:'Gravur';font-weight:400;font-style:normal;font-display:block;src:url('assets/gravur-CondRegular.woff2') format('woff2')}
+@font-face{font-family:'Gravur';font-weight:700;font-style:normal;font-display:block;src:url('assets/gravur-CondBold.woff2') format('woff2')}
+@font-face{font-family:'Gravur';font-weight:900;font-style:normal;font-display:block;src:url('assets/gravur-CondBlack.woff2') format('woff2')}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Gravur';color:#111;background:#fff;-webkit-font-smoothing:antialiased}
+button,a{font-family:'Gravur';color:inherit}
+.app{max-width:460px;margin:0 auto;padding:18px 0 56px;min-height:100vh}
+
+header{display:flex;align-items:center;gap:14px;padding:0 20px}
+header img{height:120px;width:auto;display:block}
+.hx{font:900 27px/1.02 'Gravur';text-transform:uppercase}
+.hx small{display:block;font:700 14px 'Gravur';letter-spacing:.12em;color:#777;margin-top:6px}
+
+nav{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin:16px 16px 0}
+nav a{height:40px;display:flex;align-items:center;justify-content:center;font:900 18px 'Gravur';
+  border:2px solid #111;border-radius:6px;text-decoration:none;-webkit-tap-highlight-color:transparent;
+  transition:background .15s,color .15s}
+nav a.lock{color:#B9B9B9;border-color:#E2E2E2}
+nav a.on{background:#111;color:#fff;border-color:#111}
+
+main{padding:0 24px;text-align:center}
+.view{animation:in .25s ease-out}
+.picto{display:block;margin:22px auto 8px;height:52px;width:auto}
+.tag{font:700 15px 'Gravur';letter-spacing:.16em;text-transform:uppercase;margin-top:22px}
+.picto + .tag{margin-top:0}
+.riddle{font:700 26px/1.16 'Gravur';margin-top:10px;background:#FFD43B;border-radius:14px;padding:16px 16px 17px;text-wrap:balance}
+.riddle.soon{background:#F2F2F2;color:#9A9A9A;font-size:22px}
+
+.btn{display:block;width:100%;margin-top:22px;background:#111;color:#fff;border:0;font:900 26px/1 'Gravur';
+  letter-spacing:.03em;padding:21px 10px 19px;border-radius:14px;box-shadow:0 6px 0 #FFD43B;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #FFD43B}
+.btn span{display:inline-block;animation:nudge 2.6s ease-in-out infinite}
+
+.cdl{font:700 15px 'Gravur';letter-spacing:.16em;margin-top:24px}
+.count{display:flex;justify-content:center;align-items:flex-start;gap:4px;margin-top:6px}
+.count div{min-width:70px}
+.count b{display:block;font:900 64px/1 'Gravur';font-variant-numeric:tabular-nums}
+.count span{font:400 14px 'Gravur';letter-spacing:.1em;color:#666}
+.count i{font:900 48px/1.2 'Gravur';font-style:normal;color:#C9C9C9}
+.foot{font:400 15px 'Gravur';color:#666;margin-top:10px}
+.foot sup{font-size:.62em;line-height:0}
+
+.gift{margin-top:22px;scroll-margin-top:16px}
+.gcard{background:#111;color:#fff;border-radius:16px;padding:22px 18px 22px;animation:pop .45s cubic-bezier(.2,1.4,.4,1) both}
+.gcard .gl{font:700 14px 'Gravur';letter-spacing:.16em;color:#FFD43B;text-transform:uppercase}
+.gcard h2{font:900 56px/.95 'Gravur';text-transform:uppercase;margin-top:10px;text-wrap:balance}
+.gcard .at{display:inline-block;margin-top:14px;background:#FFD43B;color:#111;font:900 20px 'Gravur';letter-spacing:.1em;
+  padding:7px 12px 5px;border-radius:5px;text-transform:uppercase}
+.gcard p{font:400 19px/1.25 'Gravur';margin-top:14px;color:#eee;text-wrap:balance}
+.info{list-style:none;margin-top:14px;animation:in .4s .25s ease-out both}
+.info li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:10px 2px;
+  border-bottom:1.5px solid #E4E4E4;font:400 18px 'Gravur';text-align:right}
+.info li b{flex:0 0 auto;font:900 15px 'Gravur';letter-spacing:.12em;text-transform:uppercase}
+
+.gift > .bon:first-child{margin-top:0}
+.bon{margin:18px 0 0;animation:in .4s .2s ease-out both}
+.bon img{display:block;width:100%;height:auto;border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.18),0 0 0 1px #E6E6E6;-webkit-touch-callout:default}
+.btn-dl{text-decoration:none;background:#FFD43B;color:#111;box-shadow:0 6px 0 #111;font-size:22px;margin-top:18px}
+.btn-dl:active{box-shadow:0 2px 0 #111}
+.btn-dl:disabled{opacity:.7}
+.btn2{text-decoration:none;font-size:22px;margin-top:18px}
+.astuce{font:400 16px/1.3 'Gravur';color:#666;margin-top:12px;text-wrap:balance}
+.wait{margin-top:22px;font:700 20px/1.25 'Gravur'}
+.wait .btn{font-size:20px;padding:16px 10px 14px}
+
+.installer{position:fixed;left:12px;right:12px;bottom:12px;max-width:436px;margin:0 auto;background:#111;color:#fff;
+  border-radius:14px;padding:14px 44px 14px 16px;display:flex;align-items:center;gap:12px;z-index:40;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);animation:in .35s ease-out}
+.installer[hidden]{display:none}
+.installer .it{font:400 16px/1.25 'Gravur';flex:1}
+.installer .it b{font-weight:900;color:#FFD43B}
+.installer .ib{flex:0 0 auto;background:#FFD43B;color:#111;border:0;border-radius:9px;font:900 17px 'Gravur';padding:10px 14px 8px;cursor:pointer}
+.installer .ix{position:absolute;top:6px;right:8px;background:none;border:0;color:#aaa;font:400 26px/1 'Gravur';cursor:pointer;padding:4px 6px}
+.cf{position:fixed;top:-24px;z-index:50;pointer-events:none;border-radius:2px;animation:fall linear forwards}
+
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+@keyframes nudge{0%,80%,100%{transform:none}86%{transform:scale(1.06)}92%{transform:scale(.98)}}
+@keyframes fall{to{transform:translate3d(var(--dx),110vh,0) rotate(var(--r))}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <img src="assets/logo.webp" alt="YOUBARD KDO">
+    <div class="hx">Une aventure<br>par mois<small>NOV. 2026 → OCT. 2027</small></div>
+  </header>
+  <nav id="mois" aria-label="Les mois"></nav>
+  <main id="vue" aria-live="polite"></main>
+  <div class="installer" id="installer" hidden>
+    <div class="it" id="installer-texte"></div>
+    <button class="ib" id="installer-ok" type="button" hidden>Installer</button>
+    <button class="ix" id="installer-x" type="button" aria-label="Fermer">×</button>
+  </div>
+</div>
+
+<script>
+/* ===== LES CADEAUX =====
+   picto : "elle" | "elle+amie" | "elle+moi" | "3filles+moi"
+   Le cadeau d'un mois n'est ajouté ici que le jour où il s'ouvre. */
+const KDO = {
+novembre: {picto: "elle", enigme: "C'est beau, c'est lisse, mais c'est sensible au froid et ça a tendance à saouler l'hiver!", cadeau: {reserver: "https://www.salonkee.ch/salon/glow-geneve", bon: {pdf: "cadeau-novembre.pdf", nom: "Bon-cadeau-Glow-Geneve.pdf"}}},
+decembre: {picto: "elle", enigme: "C'est beau, c'est lisse, mais c'est sensible au froid et ça a tendance à saouler l'hiver!", cadeau: {reserver: "https://www.salonkee.ch/salon/glow-geneve", bon: {pdf: "cadeau-novembre.pdf", nom: "Bon-cadeau-Glow-Geneve.pdf"}, bonDe: "novembre"}},
+janvier: {picto: "elle+moi", enigme: "Waf waf waf waf dans la neige", cadeau: null},
+fevrier: {picto: "3filles+moi", enigme: "À 4 cerveaux on réfléchit mieux… normalement…", cadeau: null},
+mars: {picto: "elle+moi", enigme: "Pas besoin d'aller bien loin pour une retraite spirituelle…", cadeau: null},
+avril: {picto: "elle+moi", enigme: "Il paraît que la mode c'est difficile à comprendre… on prend le défi!", cadeau: null},
+mai: {picto: null, enigme: null, cadeau: null},
+juin: {picto: null, enigme: null, cadeau: null},
+juillet: {picto: null, enigme: null, cadeau: null},
+aout: {picto: null, enigme: null, cadeau: null},
+septembre: {picto: null, enigme: null, cadeau: null},
+octobre: {picto: null, enigme: null, cadeau: null},
+};
+/* ===== FIN DES CADEAUX ===== */
+
+const MOIS = [
+  ["novembre",  "NOV",  "novembre",  "de novembre", "2026-11-01T00:00:00+01:00"],
+  ["decembre",  "DÉC",  "décembre",  "de décembre", "2026-12-01T00:00:00+01:00"],
+  ["janvier",   "JANV", "janvier",   "de janvier",  "2027-01-01T00:00:00+01:00"],
+  ["fevrier",   "FÉVR", "février",   "de février",  "2027-02-01T00:00:00+01:00"],
+  ["mars",      "MARS", "mars",      "de mars",     "2027-03-01T00:00:00+01:00"],
+  ["avril",     "AVR",  "avril",     "d'avril",     "2027-04-01T00:00:00+02:00"],
+  ["mai",       "MAI",  "mai",       "de mai",      "2027-05-01T00:00:00+02:00"],
+  ["juin",      "JUIN", "juin",      "de juin",     "2027-06-01T00:00:00+02:00"],
+  ["juillet",   "JUIL", "juillet",   "de juillet",  "2027-07-01T00:00:00+02:00"],
+  ["aout",      "AOÛT", "août",      "d'août",      "2027-08-01T00:00:00+02:00"],
+  ["septembre", "SEPT", "septembre", "de septembre","2027-09-01T00:00:00+02:00"],
+  ["octobre",   "OCT",  "octobre",   "d'octobre",   "2027-10-01T00:00:00+02:00"],
+].map(([cle, court, nom, de, debut]) => ({cle, court, nom, de, debut: Date.parse(debut)}));
+
+const PICTOS = {"elle": "<svg class=\"picto\" viewBox=\"0 0 100 220\" width=\"24\" height=\"52\" xmlns=\"http://www.w3.org/2000/svg\"><g transform=\"translate(0 0)\" fill=\"#111\"><path d=\"M50 4 C25 4 18 22 19 40 C20 52 17 62 13 70 C22 74 34 72 40 64 L60 64 C66 72 78 74 87 70 C83 62 80 52 81 40 C82 22 75 4 50 4 Z\"/><circle cx=\"50\" cy=\"38\" r=\"20\" stroke=\"#fff\" stroke-width=\"4\"/><path d=\"M36 76 L64 76 C70 76 73 79 74 84 L86 150 L14 150 L26 84 C27 79 30 76 36 76 Z\"/><path d=\"M27 82 L15 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M73 82 L85 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M30 92 L22 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><path d=\"M70 92 L78 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><rect x=\"37\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/><rect x=\"52\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/></g></svg>", "elle+amie": "<svg class=\"picto\" viewBox=\"0 0 208 220\" width=\"49\" height=\"52\" xmlns=\"http://www.w3.org/2000/svg\"><g transform=\"translate(0 0)\" fill=\"#111\"><path d=\"M50 4 C25 4 18 22 19 40 C20 52 17 62 13 70 C22 74 34 72 40 64 L60 64 C66 72 78 74 87 70 C83 62 80 52 81 40 C82 22 75 4 50 4 Z\"/><circle cx=\"50\" cy=\"38\" r=\"20\" stroke=\"#fff\" stroke-width=\"4\"/><path d=\"M36 76 L64 76 C70 76 73 79 74 84 L86 150 L14 150 L26 84 C27 79 30 76 36 76 Z\"/><path d=\"M27 82 L15 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M73 82 L85 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M30 92 L22 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><path d=\"M70 92 L78 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><rect x=\"37\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/><rect x=\"52\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/></g><g transform=\"translate(108 0)\" fill=\"#111\"><path d=\"M50 4 C25 4 18 22 19 40 C20 52 17 62 13 70 C22 74 34 72 40 64 L60 64 C66 72 78 74 87 70 C83 62 80 52 81 40 C82 22 75 4 50 4 Z\"/><circle cx=\"50\" cy=\"38\" r=\"20\" stroke=\"#fff\" stroke-width=\"4\"/><path d=\"M36 76 L64 76 C70 76 73 79 74 84 L86 150 L14 150 L26 84 C27 79 30 76 36 76 Z\"/><path d=\"M27 82 L15 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M73 82 L85 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M30 92 L22 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><path d=\"M70 92 L78 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><rect x=\"37\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/><rect x=\"52\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/></g></svg>", "elle+moi": "<svg class=\"picto\" viewBox=\"0 0 208 220\" width=\"49\" height=\"52\" xmlns=\"http://www.w3.org/2000/svg\"><g transform=\"translate(0 0)\" fill=\"#111\"><path d=\"M50 4 C25 4 18 22 19 40 C20 52 17 62 13 70 C22 74 34 72 40 64 L60 64 C66 72 78 74 87 70 C83 62 80 52 81 40 C82 22 75 4 50 4 Z\"/><circle cx=\"50\" cy=\"38\" r=\"20\" stroke=\"#fff\" stroke-width=\"4\"/><path d=\"M36 76 L64 76 C70 76 73 79 74 84 L86 150 L14 150 L26 84 C27 79 30 76 36 76 Z\"/><path d=\"M27 82 L15 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M73 82 L85 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M30 92 L22 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><path d=\"M70 92 L78 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><rect x=\"37\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/><rect x=\"52\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/></g><g transform=\"translate(108 0)\" fill=\"#111\"><circle cx=\"50\" cy=\"30\" r=\"20\"/><path d=\"M33 60 L67 60 C73 60 76 64 76 70 L76 140 L24 140 L24 70 C24 64 27 60 33 60 Z\"/><rect x=\"8\" y=\"64\" width=\"12\" height=\"74\" rx=\"6\"/><rect x=\"80\" y=\"64\" width=\"12\" height=\"74\" rx=\"6\"/><rect x=\"25\" y=\"136\" width=\"23\" height=\"80\" rx=\"7\"/><rect x=\"52\" y=\"136\" width=\"23\" height=\"80\" rx=\"7\"/></g></svg>", "3filles+moi": "<svg class=\"picto\" viewBox=\"0 0 424 220\" width=\"100\" height=\"52\" xmlns=\"http://www.w3.org/2000/svg\"><g transform=\"translate(0 0)\" fill=\"#111\"><path d=\"M50 4 C25 4 18 22 19 40 C20 52 17 62 13 70 C22 74 34 72 40 64 L60 64 C66 72 78 74 87 70 C83 62 80 52 81 40 C82 22 75 4 50 4 Z\"/><circle cx=\"50\" cy=\"38\" r=\"20\" stroke=\"#fff\" stroke-width=\"4\"/><path d=\"M36 76 L64 76 C70 76 73 79 74 84 L86 150 L14 150 L26 84 C27 79 30 76 36 76 Z\"/><path d=\"M27 82 L15 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M73 82 L85 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M30 92 L22 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><path d=\"M70 92 L78 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><rect x=\"37\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/><rect x=\"52\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/></g><g transform=\"translate(108 0)\" fill=\"#111\"><path d=\"M50 4 C25 4 18 22 19 40 C20 52 17 62 13 70 C22 74 34 72 40 64 L60 64 C66 72 78 74 87 70 C83 62 80 52 81 40 C82 22 75 4 50 4 Z\"/><circle cx=\"50\" cy=\"38\" r=\"20\" stroke=\"#fff\" stroke-width=\"4\"/><path d=\"M36 76 L64 76 C70 76 73 79 74 84 L86 150 L14 150 L26 84 C27 79 30 76 36 76 Z\"/><path d=\"M27 82 L15 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M73 82 L85 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M30 92 L22 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><path d=\"M70 92 L78 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><rect x=\"37\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/><rect x=\"52\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/></g><g transform=\"translate(216 0)\" fill=\"#111\"><path d=\"M50 4 C25 4 18 22 19 40 C20 52 17 62 13 70 C22 74 34 72 40 64 L60 64 C66 72 78 74 87 70 C83 62 80 52 81 40 C82 22 75 4 50 4 Z\"/><circle cx=\"50\" cy=\"38\" r=\"20\" stroke=\"#fff\" stroke-width=\"4\"/><path d=\"M36 76 L64 76 C70 76 73 79 74 84 L86 150 L14 150 L26 84 C27 79 30 76 36 76 Z\"/><path d=\"M27 82 L15 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M73 82 L85 132\" stroke=\"#111\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M30 92 L22 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><path d=\"M70 92 L78 138\" stroke=\"#fff\" stroke-width=\"3.5\"/><rect x=\"37\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/><rect x=\"52\" y=\"146\" width=\"11\" height=\"70\" rx=\"5.5\"/></g><g transform=\"translate(324 0)\" fill=\"#111\"><circle cx=\"50\" cy=\"30\" r=\"20\"/><path d=\"M33 60 L67 60 C73 60 76 64 76 70 L76 140 L24 140 L24 70 C24 64 27 60 33 60 Z\"/><rect x=\"8\" y=\"64\" width=\"12\" height=\"74\" rx=\"6\"/><rect x=\"80\" y=\"64\" width=\"12\" height=\"74\" rx=\"6\"/><rect x=\"25\" y=\"136\" width=\"23\" height=\"80\" rx=\"7\"/><rect x=\"52\" y=\"136\" width=\"23\" height=\"80\" rx=\"7\"/></g></svg>"};
+const BONS = {"novembre": "assets/bon-novembre.webp"};
+
+
+
+const $mois = document.getElementById("mois");
+const $vue = document.getElementById("vue");
+const NB = " ";
+let actuel = null, minuteur = null;
+
+const ouvert = m => Date.now() >= m.debut;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const deux = n => String(n).padStart(2, "0");
+
+function moisDuMoment() {
+  let c = MOIS[0];
+  for (const m of MOIS) if (ouvert(m)) c = m;
+  return c;
+}
+
+function dessinerMois() {
+  $mois.innerHTML = MOIS.map(m =>
+    `<a href="#${m.cle}" class="${m === actuel ? "on" : ouvert(m) ? "" : "lock"}"` +
+    `${m === actuel ? ' aria-current="page"' : ""}>${m.court}</a>`).join("");
+}
+
+function afficher() {
+  const cle = location.hash.slice(1);
+  actuel = MOIS.find(m => m.cle === cle) || moisDuMoment();
+  clearInterval(minuteur);
+  dessinerMois();
+  const d = KDO[actuel.cle] || {};
+  let h = "";
+  if (d.picto && PICTOS[d.picto]) h += PICTOS[d.picto];
+  h += `<div class="tag">L'énigme ${actuel.de}</div>`;
+  h += d.enigme
+    ? `<div class="riddle">«${NB}${esc(d.enigme)}${NB}»</div>`
+    : `<div class="riddle soon">L'énigme arrive bientôt…</div>`;
+
+  if (ouvert(actuel)) {
+    if (d.cadeau) {
+      h += `<button class="btn" id="go" type="button"><span>DÉCOUVRE TON CADEAU!</span></button><div class="gift" id="cadeau"></div>`;
+    } else {
+      h += `<div class="wait">Ton cadeau arrive dans quelques instants…` +
+           `<button class="btn" type="button" onclick="location.reload()">Recharger la page</button></div>`;
+    }
+  } else {
+    h += `<div class="cdl">OUVERTURE DANS</div>
+      <div class="count"><div><b id="cj">00</b><span>JOURS</span></div><i>:</i><div><b id="ch">00</b><span>HEURES</span></div><i>:</i><div><b id="cm">00</b><span>MIN</span></div><i>:</i><div><b id="cs">00</b><span>SEC</span></div></div>
+      <div class="foot">Le 1<sup>er</sup> ${actuel.nom} à minuit</div>`;
+  }
+  $vue.innerHTML = `<div class="view">${h}</div>`;
+
+  const go = document.getElementById("go");
+  if (go) go.addEventListener("click", () => devoiler(d.cadeau, go));
+  if (!ouvert(actuel)) { tic(); minuteur = setInterval(tic, 1000); }
+}
+
+function tic() {
+  const ms = actuel.debut - Date.now();
+  if (ms <= 0) { afficher(); return; }
+  const s = Math.floor(ms / 1000);
+  document.getElementById("cj").textContent = deux(Math.floor(s / 86400));
+  document.getElementById("ch").textContent = deux(Math.floor(s % 86400 / 3600));
+  document.getElementById("cm").textContent = deux(Math.floor(s % 3600 / 60));
+  document.getElementById("cs").textContent = deux(s % 60);
+}
+
+function devoiler(c, bouton) {
+  const zone = document.getElementById("cadeau");
+  const infos = (c.infos || []).filter(r => r[1]).map(r => `<li><b>${esc(r[0])}</b>${esc(r[1])}</li>`).join("");
+  const carte = c.titre ? `<div class="gcard"><div class="gl">Ton cadeau ${actuel.de}</div>
+    <h2>${esc(c.titre)}</h2>${c.lieu ? `<div class="at">${esc(c.lieu)}</div>` : ""}
+    ${c.texte ? `<p>${esc(c.texte)}</p>` : ""}</div>` : "";
+  zone.innerHTML = `${carte}${bonHtml(c)}${infos ? `<ul class="info">${infos}</ul>` : ""}
+    ${c.reserver ? `<a class="btn btn2" href="${esc(c.reserver)}" target="_blank" rel="noopener">Réserver le massage →</a>` : ""}`;
+  bouton.remove();
+  confettis();
+  setTimeout(() => zone.scrollIntoView({behavior: "smooth", block: "start"}), 60);
+}
+
+function bonHtml(c) {
+  const img = c.image || BONS[c.bonDe || actuel.cle];
+  if (!img) return "";
+  const fig = `<figure class="bon"><img src="${esc(img)}" alt="Ton cadeau"></figure>`;
+  if (!(c.bon && c.bon.pdf)) return fig;
+  return `${fig}
+    <a class="btn btn-dl" href="${esc(c.bon.pdf)}" download="${esc(c.bon.nom || "Bon-cadeau.pdf")}">Télécharger mon bon cadeau (PDF)</a>`;
+}
+
+function confettis() {
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const couleurs = ["#FFD43B", "#111111", "#FFD43B", "#FFFFFF"];
+  for (let i = 0; i < 70; i++) {
+    const p = document.createElement("i");
+    p.className = "cf";
+    const w = 6 + Math.random() * 7;
+    p.style.cssText = `left:${Math.random() * 100}vw;width:${w}px;height:${w * 1.5}px;` +
+      `background:${couleurs[i % couleurs.length]};${i % 4 === 3 ? "outline:1.5px solid #111;" : ""}` +
+      `animation-duration:${1.6 + Math.random() * 1.6}s;animation-delay:${Math.random() * .35}s;` +
+      `--dx:${(Math.random() - .5) * 160}px;--r:${(Math.random() - .5) * 1080}deg`;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 4000);
+  }
+}
+
+window.addEventListener("hashchange", afficher);
+afficher();
+
+/* ===== Appli : écran d'accueil ===== */
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+(function () {
+  const $b = document.getElementById("installer"), $t = document.getElementById("installer-texte"),
+        $ok = document.getElementById("installer-ok"), $x = document.getElementById("installer-x");
+  const dejaApp = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+  let ferme = false;
+  try { ferme = localStorage.getItem("kdo-installer-ferme") === "1"; } catch (e) {}
+  if (dejaApp || ferme) return;
+  $x.onclick = () => { $b.hidden = true; try { localStorage.setItem("kdo-installer-ferme", "1"); } catch (e) {} };
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (ios) {
+    $t.innerHTML = "Ajoute <b>YOUBARD KDO</b> à ton écran d'accueil&nbsp;: touche <b>Partager</b>, puis <b>Sur l'écran d'accueil</b>.";
+    setTimeout(() => { $b.hidden = false; }, 2500);
+  }
+  let invite = null;
+  addEventListener("beforeinstallprompt", e => {
+    e.preventDefault(); invite = e;
+    $t.innerHTML = "Installe <b>YOUBARD KDO</b> sur ton téléphone, comme une appli.";
+    $ok.hidden = false; $b.hidden = false;
+  });
+  $ok.onclick = async () => { if (!invite) return; invite.prompt(); await invite.userChoice.catch(() => {}); invite = null; $b.hidden = true; };
+})();
+</script>
+</body>
+</html>
