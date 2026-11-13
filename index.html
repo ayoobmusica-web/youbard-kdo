@@ -73,11 +73,23 @@ main{padding:0 24px;text-align:center}
 .gift > .bon:first-child{margin-top:0}
 .bon{margin:18px 0 0;animation:in .4s .2s ease-out both}
 .bon img{display:block;width:100%;height:auto;border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.18),0 0 0 1px #E6E6E6;-webkit-touch-callout:default}
-.btn-dl{text-decoration:none;background:#FFD43B;color:#111;box-shadow:0 6px 0 #111;font-size:22px;margin-top:18px}
+.btn-dl{text-decoration:none;background:#FFD43B;color:#111;box-shadow:0 6px 0 #111;font-size:20px;margin-top:18px}
 .btn-dl:active{box-shadow:0 2px 0 #111}
 .btn-dl:disabled{opacity:.7}
 .btn2{text-decoration:none;font-size:22px;margin-top:18px}
 .astuce{font:400 16px/1.3 'Gravur';color:#666;margin-top:12px;text-wrap:balance}
+.btn-plus{margin-top:26px;background:#fff;color:#111;border:3px solid #111;box-shadow:0 6px 0 #111}
+.btn-plus:active{box-shadow:0 2px 0 #111}
+.zcard{border:3px solid #111;border-radius:16px;overflow:hidden;background:#fff;animation:pop .45s cubic-bezier(.2,1.4,.4,1) both;padding-bottom:18px}
+.zcard img{display:block;width:100%;height:220px;object-fit:cover}
+.zcard .zt{padding:16px 16px 0}
+.zcard .zt span{display:block;font:700 15px 'Gravur';letter-spacing:.16em;text-transform:uppercase}
+.zcard .zt b{display:block;font:900 54px/1 'Gravur';text-transform:uppercase;margin-top:4px}
+.zcard .zl{font:700 14px 'Gravur';letter-spacing:.16em;text-transform:uppercase;color:#666;margin-top:16px}
+.zcard .zc{margin:8px 16px 0;border:2px dashed #111;border-radius:10px;padding:14px 6px 11px;font:900 25px/1 'Gravur';letter-spacing:.03em;white-space:nowrap;
+  -webkit-user-select:all;user-select:all}
+.zcard .btn{width:calc(100% - 32px);margin:16px 16px 0;display:block}
+.zcard .zlien{display:inline-block;margin-top:14px;font:700 17px 'Gravur';color:#111}
 .wait{margin-top:22px;font:700 20px/1.25 'Gravur'}
 .wait .btn{font-size:20px;padding:16px 10px 14px}
 
@@ -117,7 +129,7 @@ main{padding:0 24px;text-align:center}
     <button class="ib" id="installer-ok" type="button" hidden>Installer</button>
     <button class="ix" id="installer-x" type="button" aria-label="Fermer">×</button>
   </div>
-  <div class="ver">v5</div>
+  <div class="ver">v6</div>
 </div>
 
 <script>
@@ -125,7 +137,7 @@ main{padding:0 24px;text-align:center}
    picto : "elle" | "elle+amie" | "elle+moi" | "3filles+moi"
    Le cadeau d'un mois n'est ajouté ici que le jour où il s'ouvre. */
 const KDO = {
-novembre: {picto: "elle", enigme: "C'est beau, c'est lisse, mais c'est sensible au froid et ça a tendance à saouler l'hiver!", cadeau: {reserver: "https://www.salonkee.ch/salon/glow-geneve", bon: {pdf: "cadeau-novembre.pdf", nom: "Bon-cadeau-Glow-Geneve.pdf"}}},
+novembre: {picto: "elle", enigme: "C'est beau, c'est lisse, mais c'est sensible au froid et ça a tendance à saouler l'hiver!", cadeau: {reserver: "https://www.salonkee.ch/salon/glow-geneve", bon: {pdf: "cadeau-novembre.pdf", nom: "Bon-cadeau-Glow-Geneve.pdf"}, bonus: {titre: "Zalando", image: "assets/zalando-novembre.webp", code: "P3YM-TNUD-F3YS-3TCF", lien: "https://www.zalando.ch"}}},
 decembre: {picto: "elle+moi", enigme: "Qui a dit que les télécabines ne servaient qu'à monter faire du ski?", cadeau: null},
 janvier: {picto: "elle+moi", enigme: "Waf waf waf waf dans la neige", cadeau: null},
 fevrier: {picto: "3filles+moi", enigme: "À 4 cerveaux on réfléchit mieux… normalement…", cadeau: null},
@@ -223,6 +235,30 @@ function tic() {
   document.getElementById("cs").textContent = deux(s % 60);
 }
 
+function devoilerBonus(b, bouton) {
+  const zone = document.getElementById("bonus");
+  zone.innerHTML = `<div class="zcard">
+      ${b.image ? `<img src="${esc(b.image)}" alt="">` : ""}
+      <div class="zt"><span>Carte cadeau</span><b>${esc(b.titre)}</b></div>
+      <div class="zl">Ton code</div>
+      <div class="zc" id="zcode">${esc(b.code)}</div>
+      <button class="btn btn-dl" id="zcopier" type="button">Copier le code</button>
+      ${b.lien ? `<a class="zlien" href="${esc(b.lien)}" target="_blank" rel="noopener">L'utiliser sur zalando.ch →</a>` : ""}
+    </div>`;
+  document.getElementById("zcopier").onclick = async e => {
+    const btn = e.currentTarget;
+    try { await navigator.clipboard.writeText(b.code); btn.textContent = "Code copié!"; }
+    catch (err) {
+      const r = document.createRange(); r.selectNodeContents(document.getElementById("zcode"));
+      const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      btn.textContent = "Code sélectionné : copie-le";
+    }
+  };
+  confettis();
+  bouton.remove();
+  setTimeout(() => zone.scrollIntoView({behavior: "smooth", block: "start"}), 60);
+}
+
 function devoiler(c, bouton) {
   const zone = document.getElementById("cadeau");
   const infos = (c.infos || []).filter(r => r[1]).map(r => `<li><b>${esc(r[0])}</b>${esc(r[1])}</li>`).join("");
@@ -230,7 +266,10 @@ function devoiler(c, bouton) {
     <h2>${esc(c.titre)}</h2>${c.lieu ? `<div class="at">${esc(c.lieu)}</div>` : ""}
     ${c.texte ? `<p>${esc(c.texte)}</p>` : ""}</div>` : "";
   zone.innerHTML = `${carte}${bonHtml(c)}${infos ? `<ul class="info">${infos}</ul>` : ""}
-    ${c.reserver ? `<a class="btn btn2" href="${esc(c.reserver)}" target="_blank" rel="noopener">Réserver le massage →</a>` : ""}`;
+    ${c.reserver ? `<a class="btn btn2" href="${esc(c.reserver)}" target="_blank" rel="noopener">Réserver le massage →</a>` : ""}
+    ${c.bonus ? `<button class="btn btn-plus" id="plus" type="button"><span>ET CE N'EST PAS TOUT!</span></button><div class="gift" id="bonus"></div>` : ""}`;
+  const plus = document.getElementById("plus");
+  if (plus) plus.addEventListener("click", () => devoilerBonus(c.bonus, plus));
   brancherPdf(c);
   bouton.remove();
   confettis();
