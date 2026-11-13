@@ -234,8 +234,13 @@ function bonHtml(c) {
   if (!img) return "";
   const fig = `<figure class="bon"><img src="${esc(img)}" alt="Ton cadeau"></figure>`;
   if (!(c.bon && c.bon.pdf)) return fig;
+  // iPhone : le PDF s'ouvre dans une fenêtre à part (bouton « OK » pour revenir), jamais à la place de l'appli
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const lien = ios
+    ? `href="${esc(c.bon.pdf)}" target="_blank" rel="noopener"`
+    : `href="${esc(c.bon.pdf)}" download="${esc(c.bon.nom || "Bon-cadeau.pdf")}"`;
   return `${fig}
-    <a class="btn btn-dl" href="${esc(c.bon.pdf)}" download="${esc(c.bon.nom || "Bon-cadeau.pdf")}">Télécharger mon bon cadeau (PDF)</a>`;
+    <a class="btn btn-dl" ${lien}>Télécharger mon bon cadeau (PDF)</a>`;
 }
 
 function confettis() {
